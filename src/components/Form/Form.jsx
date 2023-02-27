@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import css from './Form.module.css';
 
-export class Form extends Component {
+export class ContactForm extends Component {
   state = {
     name: '',
     number: '',
@@ -13,17 +14,8 @@ export class Form extends Component {
     });
   };
 
-  // handleNameChange = evt => {
-  //   this.setState({ name: evt.currentTarget.value });
-  // };
-
-  // handleNumberChange = evt => {
-  //   this.setState({ number: evt.currentTarget.value });
-  // };
-
   handleFormSubmit = evt => {
     evt.preventDefault();
-    // console.log(this.state);
     this.props.onSubmit(this.state);
     this.resetForm();
   };
@@ -35,8 +27,8 @@ export class Form extends Component {
   render() {
     const { name, number } = this.state;
     return (
-      <form onSubmit={this.handleFormSubmit}>
-        <label>
+      <form className={css.form} onSubmit={this.handleFormSubmit}>
+        <label className={css.field}>
           Name
           <input
             type="text"
@@ -48,7 +40,7 @@ export class Form extends Component {
             onChange={this.handleChange}
           />
         </label>
-        <label>
+        <label className={css.field}>
           Number
           <input
             type="tel"
@@ -60,7 +52,9 @@ export class Form extends Component {
             onChange={this.handleChange}
           />
         </label>
-        <button type="submit">Add contact</button>
+        <button className={css.btn} type="submit">
+          Add contact
+        </button>
       </form>
     );
   }

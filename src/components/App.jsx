@@ -1,31 +1,33 @@
 import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
-import { Form } from './Form/Form';
+import { ContactForm } from './Form/Form';
 import { ContactList } from './ContactList/ContactList';
-import { Section } from './Section/Section';
 import { Filter } from './Filter/Filter';
 
 export class App extends Component {
   state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
+    contacts: [],
     filter: '',
   };
 
   formSubmitHandler = data => {
-    console.log(data.name);
-    const contact = {
-      id: nanoid(),
-      name: data.name,
-      number: data.number,
-    };
-    this.setState(prevState => ({
-      contacts: [contact, ...prevState.contacts],
-    }));
+    const { name, number } = data;
+    const { contacts } = this.state;
+    const repeatName = contacts.find(contact => contact.name === name);
+
+    if (repeatName) {
+      return alert(`${name} is already in contacts`);
+    } else {
+      const contact = {
+        id: nanoid(),
+        name: name,
+        number: number,
+      };
+
+      this.setState(prevState => ({
+        contacts: [contact, ...prevState.contacts],
+      }));
+    }
   };
 
   deleteContact = contactId => {
@@ -47,38 +49,21 @@ export class App extends Component {
   };
 
   render() {
-    const { contacts, filter } = this.state;
+    const { filter } = this.state;
     const filteredContacts = this.showFilteredContacts();
 
     return (
-      <>
-        <Section title="Phonebook">
-          <Form onSubmit={this.formSubmitHandler} />
-        </Section>
-        <Section title="Contacts">
-          <Filter value={filter} onChange={this.changeFilter} />
-          <ContactList
-            contacts={filteredContacts}
-            onDeleteContact={this.deleteContact}
-          />
-        </Section>
-      </>
+      <div>
+        <h1>Phonebook</h1>
+        <ContactForm onSubmit={this.formSubmitHandler} />
 
-      // <div
-      //   style={{
-      //     height: '100vh',
-      //     display: 'flex',
-      //     justifyContent: 'center',
-      //     alignItems: 'center',
-      //     fontSize: 40,
-      //     color: '#010101',
-      //   }}
-      // >
-      //   React homework template
-      // </div>
+        <h2>Contacts</h2>
+        <Filter value={filter} onChange={this.changeFilter} />
+        <ContactList
+          contacts={filteredContacts}
+          onDeleteContact={this.deleteContact}
+        />
+      </div>
     );
   }
 }
-
-// import { nanoid } from 'nanoid';
-// model.id = nanoid();
