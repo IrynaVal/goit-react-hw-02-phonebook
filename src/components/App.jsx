@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
-import { ContactForm } from './Form/Form';
+import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 
@@ -15,7 +15,7 @@ export class App extends Component {
     filter: '',
   };
 
-  formSubmitHandler = data => {
+  formSubmitHandler = (data, resetForm) => {
     const { name, number } = data;
     const { contacts } = this.state;
     const repeatName = contacts.find(contact => contact.name === name);
@@ -32,6 +32,7 @@ export class App extends Component {
       this.setState(prevState => ({
         contacts: [contact, ...prevState.contacts],
       }));
+      resetForm();
     }
   };
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import css from './Form.module.css';
+import css from './ContactForm.module.css';
+import PropTypes from 'prop-types';
 
 export class ContactForm extends Component {
   state = {
@@ -16,8 +17,8 @@ export class ContactForm extends Component {
 
   handleFormSubmit = evt => {
     evt.preventDefault();
-    this.props.onSubmit(this.state);
-    this.resetForm();
+    this.props.onSubmit(this.state, this.resetForm);
+    // this.resetForm();
   };
 
   resetForm = () => {
@@ -59,3 +60,7 @@ export class ContactForm extends Component {
     );
   }
 }
+
+ContactForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
